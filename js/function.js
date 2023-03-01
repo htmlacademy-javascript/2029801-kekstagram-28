@@ -21,14 +21,14 @@ const getNumber = (str) => { /* Возвращает все имеющиеся �
 
 getNumber('2 cats and 3 cows');
 
-const doOptimalString = function (string, minLength, pad) { /* С помощью заданной подкладки доводит длину строки до минимально требуемого значения */
-  const requiredPad = minLength - string.length;
+const getOptimalStringWithPad = (str, minLength, pad) => { /* С помощью заданной подкладки доводит длину строки до минимально требуемого значения */
+  const requiredPad = minLength - str.length;
 
   if (requiredPad <= 0) {
-    return string;
+    return str;
   }
 
-  return string.slice(0, requiredPad % pad.length) + pad.repeat(requiredPad / pad.length) + string;
+  return str.slice(0, requiredPad % pad.length) + pad.repeat(requiredPad / pad.length) + str;
 };
 
-doOptimalString('Ha', 4, 'Ho');
+getOptimalStringWithPad('Ha', 4, 'Ho');
