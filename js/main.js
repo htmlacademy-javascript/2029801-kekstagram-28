@@ -1,2 +1,2 @@
-import './data.js';
-import './function.js';
+import './post-data.js';
+import './utils.js';

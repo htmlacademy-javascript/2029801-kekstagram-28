@@ -1,5 +1,5 @@
-import {getRandomArrayElement} from './function';
-import {getRandomInteger} from './function';
+import {getRandomArrayElement} from './utils';
+import {getRandomInteger} from './utils';
 
 const COMMENT_OPTIONS = [
   'Всё отлично!',
@@ -39,6 +39,6 @@ const createPost = (id) => ({
   comments: Array.from({length: MAX_COMMENTS}, (_, i) => createComment(i))
 });
 
-const createPostBase = (count) => Array.from({length: count}, (_, i) => createPost(i + 1));
+export const createPostBase = (count) => Array.from({length: count}, (_, i) => createPost(i + 1));
 
 createPostBase(25);
