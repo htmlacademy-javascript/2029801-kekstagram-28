@@ -9,7 +9,7 @@ const generateNewPost = (postBaseElement) => {
   const postComments = newPost.querySelector('.picture__comments');
   const postLikes = newPost.querySelector('.picture__likes');
 
-  postImage.src = '../' + postBaseElement.url;
+  postImage.src = postBaseElement.url;
   postComments.textContent = postBaseElement.comments.length;
   postLikes.textContent = postBaseElement.likes;
 

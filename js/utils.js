@@ -1,12 +1,12 @@
-export const isStringOptimal = (str, maxLength) => str.length <= maxLength; /* Проверка на длину строки */
+export const isStringOptimal = (str, maxLength) => str.length <= maxLength;
 
 isStringOptimal('check', 3);
 
-export const isItPalindrome = (str) => str.toLowerCase() === str.toLowerCase().split('').reverse().join(''); /* Проверка на палиндром */
+export const isItPalindrome = (str) => str.toLowerCase() === str.toLowerCase().split('').reverse().join('');
 
 isItPalindrome('Nan');
 
-export const getNumber = (str) => { /* Возвращает все имеющиеся числа в строке в виде одного целого числа */
+export const getNumber = (str) => {
   let numberStr = '';
   const strNoSpace = str.replaceAll(' ', '');
 
@@ -21,7 +21,7 @@ export const getNumber = (str) => { /* Возвращает все имеющи�
 
 getNumber('2 cats and 3 cows');
 
-export const getOptimalStringWithPad = (str, minLength, pad) => { /* С помощью заданной подкладки доводит длину строки до минимально требуемого значения */
+export const getOptimalStringWithPad = (str, minLength, pad) => {
   const requiredPad = minLength - str.length;
 
   if (requiredPad <= 0) {
@@ -33,7 +33,7 @@ export const getOptimalStringWithPad = (str, minLength, pad) => { /* С помо
 
 getOptimalStringWithPad('Ha', 4, 'Ho');
 
-export const getRandomInteger = (a, b) => { /* Возвращает случайное целое число в заданном диапазоне */
+export const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
   const result = Math.random() * (upper - lower + 1) + lower;
@@ -41,4 +41,4 @@ export const getRandomInteger = (a, b) => { /* Возвращает случай
   return Math.floor(result);
 };
 
-export const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)]; /* Возвращает случайный элемент массива */
+export const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];

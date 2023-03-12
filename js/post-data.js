@@ -33,7 +33,7 @@ const createComment = (id) => ({
 
 const createPost = (id) => ({
   id,
-  url: `photos/${id}.jpg`,
+  url: `../photos/${id}.jpg`,
   desription: 'Очередной новый пост',
   likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
   comments: Array.from({length: COMMENTS_COUNT}, (_, i) => createComment(i))
