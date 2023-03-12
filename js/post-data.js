@@ -1,5 +1,5 @@
-import {getRandomArrayElement} from './utils';
-import {getRandomInteger} from './utils';
+import {getRandomArrayElement} from './utils.js';
+import {getRandomInteger} from './utils.js';
 
 const COMMENT_OPTIONS = [
   'Всё отлично!',
@@ -22,7 +22,7 @@ const AVATARS_DIAPASONE_MIN = 0;
 const AVATARS_DIAPASONE_MAX = 6;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
-const MAX_COMMENTS = 3;
+const COMMENTS_COUNT = 3;
 
 const createComment = (id) => ({
   id,
@@ -36,7 +36,7 @@ const createPost = (id) => ({
   url: `photos/${id}.jpg`,
   desription: 'Очередной новый пост',
   likes: getRandomInteger(MIN_LIKES, MAX_LIKES),
-  comments: Array.from({length: MAX_COMMENTS}, (_, i) => createComment(i))
+  comments: Array.from({length: COMMENTS_COUNT}, (_, i) => createComment(i))
 });
 
 export const createPostBase = (count) => Array.from({length: count}, (_, i) => createPost(i + 1));
