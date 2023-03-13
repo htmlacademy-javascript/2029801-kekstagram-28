@@ -40,5 +40,3 @@ const createPost = (id) => ({
 });
 
 export const createPostBase = (count) => Array.from({length: count}, (_, i) => createPost(i + 1));
-
-createPostBase(25);
