@@ -1,6 +1,6 @@
-import './post-data.js';
-import './utils.js';
-import {createPostBase} from './post-data.js';
+import {createPostsData} from './post-data.js';
 import {renderPosts} from './create-post.js';
 
-renderPosts(createPostBase(25));
+const posts = createPostsData(25);
+
+renderPosts(posts);

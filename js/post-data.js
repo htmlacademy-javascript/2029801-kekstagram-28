@@ -39,4 +39,4 @@ const createPost = (id) => ({
   comments: Array.from({length: COMMENTS_COUNT}, (_, i) => createComment(i))
 });
 
-export const createPostBase = (count) => Array.from({length: count}, (_, i) => createPost(i + 1));
+export const createPostsData = (count) => Array.from({length: count}, (_, i) => createPost(i + 1));
