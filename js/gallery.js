@@ -1,12 +1,13 @@
-import {isEscapeKey} from './utils.js';
-
 const AVATAR_WIDTH = '35';
 const AVATAR_HEIGHT = '35';
+
+import {isEscapeKey} from './utils.js';
+
 const overlay = document.querySelector('.big-picture');
 const closeButton = overlay.querySelector('.big-picture__cancel');
 const imageContainer = overlay.querySelector('.big-picture__img');
 const image = imageContainer.querySelector('img');
-const likes = overlay.querySelector('.likes-count');
+const likesCounter = overlay.querySelector('.likes-count');
 const commentsCounter = overlay.querySelector('.social__comment-count');
 const commentsCount = overlay.querySelector('.comments-count');
 const moreCommentsButton = overlay.querySelector('.comments-loader');
@@ -51,17 +52,19 @@ const renderComment = (commentData) => {
 export const renderGallery = (post) => {
   overlay.classList.remove('hidden');
 
+  const {url, description, likes, comments} = post;
+
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
   commentsCounter.classList.add('hidden');
   moreCommentsButton.classList.add('hidden');
 
-  image.src = post.url;
-  likes.textContent = post.likes;
-  commentsCount.textContent = post.comments.length;
-  postCaption.textContent = post.description;
+  image.src = url;
+  likesCounter.textContent = likes;
+  commentsCount.textContent = comments.length;
+  postCaption.textContent = description;
 
-  for (const value of post.comments) {
+  for (const value of comments) {
     renderComment(value);
   }
 };
