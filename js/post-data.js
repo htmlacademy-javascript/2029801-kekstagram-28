@@ -1,3 +1,6 @@
+import {getRandomArrayElement} from './utils.js';
+import {getRandomInteger} from './utils.js';
+
 const COMMENT_OPTIONS = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -20,9 +23,6 @@ const AVATARS_DIAPASONE_MAX = 6;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
 const COMMENTS_COUNT = 3;
-
-import {getRandomArrayElement} from './utils.js';
-import {getRandomInteger} from './utils.js';
 
 const createComment = (id) => ({
   id,

@@ -1,7 +1,7 @@
+import {isEscapeKey} from './utils.js';
+
 const AVATAR_WIDTH = '35';
 const AVATAR_HEIGHT = '35';
-
-import {isEscapeKey} from './utils.js';
 
 const overlay = document.querySelector('.big-picture');
 const closeButton = overlay.querySelector('.big-picture__cancel');
