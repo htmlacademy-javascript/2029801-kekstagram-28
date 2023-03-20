@@ -18,7 +18,7 @@ const NAMES = [
   'Кекс',
   'Дарья'
 ];
-const AVATARS_DIAPASONE_MIN = 0;
+const AVATARS_DIAPASONE_MIN = 1;
 const AVATARS_DIAPASONE_MAX = 6;
 const MIN_LIKES = 15;
 const MAX_LIKES = 200;
@@ -26,12 +26,12 @@ const COMMENTS_COUNT = 3;
 
 const createComment = (id) => ({
   id,
-  avatar: `img/avatar-${getRandomInteger(AVATARS_DIAPASONE_MIN, AVATARS_DIAPASONE_MAX)}.svg`,
+  avatar: `../img/avatar-${getRandomInteger(AVATARS_DIAPASONE_MIN, AVATARS_DIAPASONE_MAX)}.svg`,
   message: getRandomArrayElement(COMMENT_OPTIONS),
   name: getRandomArrayElement(NAMES)
 });
 
-const createPost = (id) => ({
+export const createPost = (id) => ({
   id,
   url: `../photos/${id}.jpg`,
   desription: 'Очередной новый пост',
