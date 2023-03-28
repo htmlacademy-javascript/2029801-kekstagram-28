@@ -30,16 +30,16 @@
       <section class="img-upload">
         <div class="img-upload__wrapper">
           <h2 class="img-upload__title  visually-hidden">Загрузка фотографии</h2>
-          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" autocomplete="off">
+          <form class="img-upload__form" id="upload-select-image" method="post" enctype="multipart/form-data" autocomplete="off" action="https://28.javascript.pages.academy/kekstagram">
 
             <!-- Изначальное состояние поля для загрузки изображения -->
             <fieldset class="img-upload__start">
-              <input type="file" id="upload-file" class="img-upload__input  visually-hidden" name="filename" required>
+              <input id="upload-file" class="img-upload__input  visually-hidden" name="filename"> <!-- type="file"  -->
               <label for="upload-file" class="img-upload__label  img-upload__control">Загрузить</label>
             </fieldset>
 
             <!-- Форма редактирования изображения -->
-            <div class="img-upload__overlay  hidden">
+            <div class="img-upload__overlay hidden">
               <div class="img-upload__wrapper">
                 <div class="img-upload__preview-container">
 
@@ -119,7 +119,7 @@
                     <input class="text__hashtags" name="hashtags" placeholder="#ХэшТег">
                   </div>
                   <div class="img-upload__field-wrapper">
-                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..."></textarea>
+                    <textarea class="text__description" name="description" placeholder="Ваш комментарий..." maxlength="140"></textarea>
                   </div>
                 </fieldset>
 
@@ -201,20 +201,20 @@
 
   <!-- Сообщение с ошибкой загрузки изображения -->
   <template id="error">
-    <section class="error">
+    <section class="error dialog" data-close>
       <div class="error__inner">
         <h2 class="error__title">Ошибка загрузки файла</h2>
-        <button type="button" class="error__button">Попробовать ещё раз</button>
+        <button type="button" class="error__button dialog__button" data-close>Попробовать ещё раз</button>
       </div>
     </section>
   </template>
 
   <!-- Сообщение об успешной загрузке изображения -->
   <template id="success">
-    <section class="success">
+    <section class="success dialog" data-close>
       <div class="success__inner">
         <h2 class="success__title">Изображение успешно загружено</h2>
-        <button type="button" class="success__button">Круто!</button>
+        <button type="button" class="success__button dialog__button" data-close>Круто!</button>
       </div>
     </section>
   </template>
@@ -224,6 +224,8 @@
     <div class="img-upload__message  img-upload__message--loading">Загружаем...</div>
   </template>
 
+  <script src="./vendor/pristine/pristine.min.js"></script>
   <script src="./js/main.js" type="module"></script>
+  <script src="./js/form.js" type="module"></script>
 </body>
 </html>
