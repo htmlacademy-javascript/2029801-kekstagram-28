@@ -8,7 +8,7 @@ const closeDialogOverlay = () => {
   document.removeEventListener('keydown', onDocumentKeydown);
 };
 
-function onDocumentKeydown (evt) {
+function onDocumentKeydown (evt) { /* function для хостинга */
   if (isEscapeKey(evt.key)) {
     evt.preventDefault();
     closeDialogOverlay();

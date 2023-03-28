@@ -35,11 +35,13 @@ const clearForm = () => {
 };
 
 const isHashTagsCorrect = (hashTags) => {
-  const hashTagsList = hashTags.split(' ');
+  const trimmedText = hashTags.trim();
 
-  if (hashTagsList[0].length === 0) {
+  if (!trimmedText) {
     return true;
   }
+
+  const hashTagsList = hashTags.split('#');
 
   if (hashTagsList.length > MAX_HASH_TAG_COUNT) {
     return false;
@@ -63,7 +65,7 @@ const openForm = () => {
   hashTagsField.addEventListener('keydown', onFormFieldKeydown);
 };
 
-function closeForm () {
+function closeForm () { /* function для хостинга */
   document.body.classList.remove('modal-open');
   formOverlay.classList.add('hidden');
 
