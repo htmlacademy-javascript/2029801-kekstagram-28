@@ -23,13 +23,11 @@ const onElementClick = (evt) => {
 
 export const openDialogOverlay = (template) => {
   activeOverlay = template.cloneNode(true);
-  const confirmButton = activeOverlay.querySelector('.dialog__button');
 
   document.body.appendChild(activeOverlay);
 
   document.addEventListener('keydown', onDocumentKeydown);
-  document.addEventListener('click', onElementClick);
-  confirmButton.addEventListener('click', closeDialogOverlay);
+  activeOverlay.addEventListener('click', onElementClick);
 };
 
 export const isDialogOpen = () => activeOverlay !== null;
