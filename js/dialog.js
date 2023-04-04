@@ -10,8 +10,8 @@ const closeDialogOverlay = () => {
 
 // function для хостинга
 function onDocumentKeydown (evt) {
+  evt.preventDefault();
   if (isEscapeKey(evt.key)) {
-    evt.preventDefault();
     closeDialogOverlay();
   }
 }
