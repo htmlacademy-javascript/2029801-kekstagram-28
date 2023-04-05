@@ -21,7 +21,8 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-function closeOverlay () { /* function для хостинга */
+// function для хостинга
+function closeOverlay () {
   overlay.classList.add('hidden');
 
   document.removeEventListener('keydown', onDocumentKeydown);
