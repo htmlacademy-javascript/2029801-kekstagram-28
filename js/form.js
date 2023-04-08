@@ -1,10 +1,12 @@
 import {isEscapeKey} from './utils.js';
 import {openDialogOverlay} from './dialog.js';
 import {isDialogOpen} from './dialog.js';
+import {sendData} from './api.js';
 
 const HASH_TAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASH_TAG_COUNT = 5;
 const FIELD_ERROR_MESSAGE = `Неверный формат, повторение или задано больше ${MAX_HASH_TAG_COUNT} хэштэгов`;
+const INITIAL_SCALE = 100;
 const SCALE_STEP = 25;
 const MIN_SCALE_VALUE = 25;
 const MAX_SCALE_VALUE = 100;
@@ -36,6 +38,7 @@ const sliderContainer = createArticleForm.querySelector('.img-upload__effect-lev
 const sliderElement = createArticleForm.querySelector('.effect-level__slider');
 const filterValueElement = createArticleForm.querySelector('.effect-level__value');
 const imageFiltersList = createArticleForm.querySelector('.effects__list');
+const submitButton = createArticleForm.querySelector('.img-upload__submit');
 
 let currentFilter = 'none';
 
@@ -99,15 +102,13 @@ const setImageScale = (value) => {
 const onScaleButtonClick = (evt) => {
   let currentScaleValue = parseInt(scaleValueField.value, 10);
 
-  setImageScale(currentScaleValue);
-
   if (evt.target === raiseScaleButton && currentScaleValue < MAX_SCALE_VALUE) {
     currentScaleValue += SCALE_STEP;
-    setImageScale(currentScaleValue);
   } else if (evt.target === decreaseScaleButton && currentScaleValue > MIN_SCALE_VALUE) {
     currentScaleValue -= SCALE_STEP;
-    setImageScale(currentScaleValue);
   }
+
+  setImageScale(currentScaleValue);
 };
 
 noUiSlider.create(sliderElement, {
@@ -151,8 +152,11 @@ const clearImageFilter = () => {
 
 const onFilterButtonClick = (evt) => {
   uploadImage.classList.remove(`effects__preview--${currentFilter}`);
+
   currentFilter = evt.target.value;
+
   uploadImage.classList.add(`effects__preview--${currentFilter}`);
+
   const currentFilterSettings = imageFilters[currentFilter];
 
   if (evt.target.value !== 'none') {
@@ -167,7 +171,7 @@ const onFilterButtonClick = (evt) => {
 const clearForm = () => {
   createArticleForm.reset();
   clearImageFilter();
-  setImageScale(100);
+  setImageScale(INITIAL_SCALE);
 };
 
 const isHashTagsCorrect = (hashTags) => {
@@ -177,7 +181,7 @@ const isHashTagsCorrect = (hashTags) => {
     return true;
   }
 
-  const hashTagsList = hashTags.split('#');
+  const hashTagsList = trimmedText.split(' ');
 
   if (hashTagsList.length > MAX_HASH_TAG_COUNT) {
     return false;
@@ -206,7 +210,7 @@ const openForm = () => {
 };
 
 // function для хостинга
-function closeForm () {
+export function closeForm () {
   document.body.classList.remove('modal-open');
   formOverlay.classList.add('hidden');
   uploadImage.classList.remove(`effects__preview--${currentFilter}`);
@@ -224,6 +228,16 @@ const onCloseFormButtonClick = () => {
   closeForm();
 };
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикация...';
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
 closeOverlayButton.addEventListener('click', onCloseFormButtonClick);
 createPostButton.addEventListener('click', onOpenFormButtonClick);
 
@@ -235,16 +249,23 @@ const pristine = new Pristine(createArticleForm, {
 
 pristine.addValidator(hashTagsField, isHashTagsCorrect, FIELD_ERROR_MESSAGE);
 
+const onPostFormSuccess = () => {
+  openDialogOverlay(successMessageOverlay);
+};
+
+const onPostFormError = () => {
+  openDialogOverlay(errorMessageOverlay);
+};
+
 createArticleForm.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
 
   if (isValid) {
-    openDialogOverlay(successMessageOverlay);
+    blockSubmitButton();
+    sendData(new FormData(evt.target), onPostFormSuccess, onPostFormError)
+      .finally(unblockSubmitButton);
     clearForm();
-  } else {
-    openDialogOverlay(errorMessageOverlay);
   }
 });
-

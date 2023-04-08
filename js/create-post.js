@@ -14,7 +14,7 @@ const createPostElement = (postBaseElement) => {
   return newPost;
 };
 
-export const renderPosts = (postData) => {
+export const onGetPostSuccess = (postData) => {
   const postListFragment = document.createDocumentFragment();
 
   for (const value of postData) {

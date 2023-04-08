@@ -1,6 +1,7 @@
-import {createPostsData} from './post-data.js';
-import {renderPosts} from './create-post.js';
+import {onGetPostSuccess} from './create-post.js';
+import './form.js';
+import {getData} from './api.js';
+import {onGetPostError} from './utils.js';
 
-const posts = createPostsData(25);
+getData(onGetPostSuccess, onGetPostError);
 
-renderPosts(posts);
