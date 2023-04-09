@@ -1,5 +1,7 @@
 import {isEscapeKey} from './utils.js';
 
+const ALERT_SHOW_TIME = 5000;
+
 let activeOverlay = null;
 
 const closeDialogOverlay = () => {
@@ -32,3 +34,16 @@ export const openDialogOverlay = (template) => {
 };
 
 export const isDialogOpen = () => activeOverlay !== null;
+
+export const onGetPostError = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.classList.add('data-error');
+
+  alertContainer.textContent = message;
+
+  document.body.append(alertContainer);
+
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+};

@@ -210,7 +210,7 @@ const openForm = () => {
 };
 
 // function для хостинга
-export function closeForm () {
+function closeForm () {
   document.body.classList.remove('modal-open');
   formOverlay.classList.add('hidden');
   uploadImage.classList.remove(`effects__preview--${currentFilter}`);
@@ -228,14 +228,14 @@ const onCloseFormButtonClick = () => {
   closeForm();
 };
 
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Публикация...';
-};
-
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
+const toggleSubmitCTAState = (button) => {
+  if (!button.disabled) {
+    submitButton.disabled = true;
+    submitButton.textContent = 'Публикация...';
+  } else {
+    submitButton.disabled = false;
+    submitButton.textContent = 'Опубликовать';
+  }
 };
 
 closeOverlayButton.addEventListener('click', onCloseFormButtonClick);
@@ -250,11 +250,15 @@ const pristine = new Pristine(createArticleForm, {
 pristine.addValidator(hashTagsField, isHashTagsCorrect, FIELD_ERROR_MESSAGE);
 
 const onPostFormSuccess = () => {
+  toggleSubmitCTAState();
   openDialogOverlay(successMessageOverlay);
+  toggleSubmitCTAState();
 };
 
 const onPostFormError = () => {
+  toggleSubmitCTAState();
   openDialogOverlay(errorMessageOverlay);
+  toggleSubmitCTAState();
 };
 
 createArticleForm.addEventListener('submit', (evt) => {
@@ -263,9 +267,7 @@ createArticleForm.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
 
   if (isValid) {
-    blockSubmitButton();
-    sendData(new FormData(evt.target), onPostFormSuccess, onPostFormError)
-      .finally(unblockSubmitButton);
+    sendData(new FormData(evt.target), onPostFormSuccess, onPostFormError);
     clearForm();
   }
 });
