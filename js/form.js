@@ -229,12 +229,12 @@ const onCloseFormButtonClick = () => {
 };
 
 const toggleSubmitCTAState = (isSubmitButtonDisable) => {
-  if (!isSubmitButtonDisable) {
-    submitButton.disabled = true;
-    submitButton.textContent = 'Публикация...';
-  } else {
+  if (isSubmitButtonDisable) {
     submitButton.disabled = false;
     submitButton.textContent = 'Опубликовать';
+  } else {
+    submitButton.disabled = true;
+    submitButton.textContent = 'Публикация...';
   }
 };
 
@@ -252,6 +252,8 @@ pristine.addValidator(hashTagsField, isHashTagsCorrect, FIELD_ERROR_MESSAGE);
 const onSubmitFormSuccess = () => {
   openDialogOverlay(successMessageOverlay);
   toggleSubmitCTAState(submitButton.disabled);
+  clearForm();
+  closeForm();
 };
 
 const onSubmitFormError = () => {
@@ -267,6 +269,5 @@ createArticleForm.addEventListener('submit', (evt) => {
   if (isValid) {
     toggleSubmitCTAState(submitButton.disabled);
     sendData(new FormData(evt.target), onSubmitFormSuccess, onSubmitFormError);
-    clearForm();
   }
 });

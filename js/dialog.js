@@ -35,7 +35,7 @@ export const openDialogOverlay = (template) => {
 
 export const isDialogOpen = () => activeOverlay !== null;
 
-export const onGetPostError = (message) => {
+export const openErrorMessage = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.classList.add('data-error');
 
