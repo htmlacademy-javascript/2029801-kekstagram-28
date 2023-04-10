@@ -1,6 +1,17 @@
-import {createPostsData} from './post-data.js';
+import {savePhotosData} from './photos-data.js';
+import './form.js';
+import {getData} from './api.js';
+import {openErrorMessage} from './dialog.js';
 import {renderPosts} from './create-post.js';
 
-const posts = createPostsData(25);
+const onGetPostSuccess = (postData) => {
+  savePhotosData(postData);
+  renderPosts(postData);
+};
 
-renderPosts(posts);
+const onGetPostError = (errorMessage) => {
+  openErrorMessage(errorMessage);
+};
+
+getData(onGetPostSuccess, onGetPostError);
+
