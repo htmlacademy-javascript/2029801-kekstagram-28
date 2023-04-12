@@ -1,15 +1,19 @@
-const postContainer = document.querySelector('.pictures');
+import {renderGallery} from './gallery.js';
+
+const postContainer = document.querySelector('.users-photo');
 const postTemplate = document.querySelector('#picture').content;
+
 
 const createPostElement = (postBaseElement) => {
   const newPost = postTemplate.cloneNode(true);
-  const postImage = newPost.querySelector('.picture__img');
-  const postComments = newPost.querySelector('.picture__comments');
-  const postLikes = newPost.querySelector('.picture__likes');
+  const newPostImage = newPost.querySelector('.picture__img');
+  const newPostComments = newPost.querySelector('.picture__comments');
+  const newPostLikes = newPost.querySelector('.picture__likes');
 
-  postImage.src = postBaseElement.url;
-  postComments.textContent = postBaseElement.comments.length;
-  postLikes.textContent = postBaseElement.likes;
+  newPostImage.dataset.imageId = postBaseElement.id;
+  newPostImage.src = postBaseElement.url;
+  newPostComments.textContent = postBaseElement.comments.length;
+  newPostLikes.textContent = postBaseElement.likes;
 
   return newPost;
 };
@@ -22,5 +26,12 @@ export const renderPosts = (postData) => {
     postListFragment.appendChild(newPost);
   }
 
+  const onPostClick = (evt) => {
+    const currentPost = evt.target;
+    const postId = currentPost.dataset.imageId;
+    renderGallery(postData[postId]);
+  };
+
   postContainer.appendChild(postListFragment);
+  postContainer.addEventListener('click', onPostClick);
 };

@@ -2,13 +2,13 @@ import {isEscapeKey} from './utils.js';
 
 const AVATAR_WIDTH = '35';
 const AVATAR_HEIGHT = '35';
+const DEFAULT_COMMENTS_COUNT = 5;
 
 const overlay = document.querySelector('.big-picture');
 const closeButton = overlay.querySelector('.big-picture__cancel');
 const imageContainer = overlay.querySelector('.big-picture__img');
 const image = imageContainer.querySelector('img');
 const likesCounter = overlay.querySelector('.likes-count');
-const commentsCounter = overlay.querySelector('.social__comment-count');
 const commentsCount = overlay.querySelector('.comments-count');
 const moreCommentsButton = overlay.querySelector('.comments-loader');
 const postCaption = overlay.querySelector('.social__caption');
@@ -24,6 +24,8 @@ const onDocumentKeydown = (evt) => {
 // function для хостинга
 function closeOverlay () {
   overlay.classList.add('hidden');
+
+  document.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
 }
@@ -54,18 +56,49 @@ export const renderGallery = (post) => {
   overlay.classList.remove('hidden');
 
   const {url, description, likes, comments} = post;
+  let commentsSliceCounter = DEFAULT_COMMENTS_COUNT;
+  let slicedComments = comments.slice();
+
+  const onMoreCommentsButtonClick = () => {
+    commentsSliceCounter += DEFAULT_COMMENTS_COUNT;
+    slicedComments = comments.slice(0, commentsSliceCounter);
+    commentsList.innerHTML = '';
+    commentsCount.textContent = `${slicedComments.length} из ${comments.length}`;
+
+    for (const value of slicedComments) {
+      renderComment(value);
+    }
+
+    if (slicedComments.length === comments.length) {
+      moreCommentsButton.classList.add('hidden');
+    }
+  };
 
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
-  commentsCounter.classList.add('hidden');
-  moreCommentsButton.classList.add('hidden');
+  moreCommentsButton.removeEventListener('click', onMoreCommentsButtonClick);
+  moreCommentsButton.addEventListener('click', onMoreCommentsButtonClick);
 
+  if (moreCommentsButton.classList.contains('hidden')) {
+    moreCommentsButton.classList.remove('hidden');
+  }
+
+  commentsCount.textContent = comments.length;
   image.src = url;
   likesCounter.textContent = likes;
-  commentsCount.textContent = comments.length;
   postCaption.textContent = description;
+  commentsList.innerHTML = '';
 
-  for (const value of comments) {
+  if (slicedComments.length > commentsSliceCounter) {
+    slicedComments = comments.slice(0, commentsSliceCounter);
+  } else {
+    moreCommentsButton.classList.add('hidden');
+  }
+
+  commentsCount.textContent = `${slicedComments.length} из ${comments.length}`;
+
+  for (const value of slicedComments) {
     renderComment(value);
   }
 };
+
