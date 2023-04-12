@@ -1,4 +1,5 @@
 import {renderGallery} from './gallery.js';
+import {getPhotosData} from './photos-data.js';
 
 const postContainer = document.querySelector('.users-photo');
 const postTemplate = document.querySelector('#picture').content;
@@ -18,6 +19,14 @@ const createPostElement = (postBaseElement) => {
   return newPost;
 };
 
+const onPostClick = (evt) => {
+  const postData = getPhotosData();
+  const postId = evt.target.dataset.imageId;
+  renderGallery(postData[postId]);
+};
+
+postContainer.addEventListener('click', onPostClick);
+
 export const renderPosts = (postData) => {
   const postListFragment = document.createDocumentFragment();
 
@@ -26,12 +35,5 @@ export const renderPosts = (postData) => {
     postListFragment.appendChild(newPost);
   }
 
-  const onPostClick = (evt) => {
-    const currentPost = evt.target;
-    const postId = currentPost.dataset.imageId;
-    renderGallery(postData[postId]);
-  };
-
   postContainer.appendChild(postListFragment);
-  postContainer.addEventListener('click', onPostClick);
 };
