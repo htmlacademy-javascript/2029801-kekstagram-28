@@ -78,16 +78,19 @@ const renderComments = (commentsData) => {
   if (commentsData.length === currentPost.comments.length) {
     moreCommentsButton.classList.add('hidden');
   }
+
+  commentsCount.textContent = `${commentsData.length} из ${currentPost.comments.length}`;
 };
 
 const onMoreCommentsButtonClick = () => {
   commentsSliceCounter += DEFAULT_COMMENTS_COUNT;
   const slicedComments = currentPost.comments.slice(0, commentsSliceCounter);
   commentsList.innerHTML = '';
-  commentsCount.textContent = `${slicedComments.length} из ${currentPost.comments.length}`;
 
   renderComments(slicedComments);
 };
+
+moreCommentsButton.addEventListener('click', onMoreCommentsButtonClick);
 
 export const openPost = (post) => {
   overlay.classList.remove('hidden');
@@ -99,10 +102,8 @@ export const openPost = (post) => {
 
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
-  moreCommentsButton.removeEventListener('click', onMoreCommentsButtonClick);
-  moreCommentsButton.addEventListener('click', onMoreCommentsButtonClick);
 
-  if (moreCommentsButton.classList.contains('hidden')) {
+  if (slicedComments.length < comments.length) {
     moreCommentsButton.classList.remove('hidden');
   }
 
@@ -113,7 +114,5 @@ export const openPost = (post) => {
   commentsList.innerHTML = '';
 
   renderComments(slicedComments);
-
-  commentsCount.textContent = `${slicedComments.length} из ${comments.length}`;
 };
 
