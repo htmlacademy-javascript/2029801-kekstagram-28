@@ -2,13 +2,13 @@ import {savePhotosData} from './photos-data.js';
 import './form.js';
 import {getData} from './api.js';
 import {openErrorMessage} from './dialog.js';
-import {renderPosts} from './create-post.js';
+import {renderGallery} from './gallery.js';
 import {unblockFilters} from './filters.js';
 import './upload-image.js';
 
 const onGetPostSuccess = (postData) => {
   savePhotosData(postData);
-  renderPosts(postData);
+  renderGallery(postData);
   unblockFilters();
 };
 

@@ -1,6 +1,6 @@
 import {getRandomArrayElement} from './utils.js';
 import {getPhotosData} from './photos-data.js';
-import {renderPosts} from './create-post.js';
+import {renderGallery} from './gallery.js';
 import {debounce} from './utils.js';
 
 const RANDOM_IMAGES_COUNT = 10;
@@ -57,7 +57,7 @@ const onFilterButtonClick = (evt) => {
       break;
   }
 
-  renderPosts(postData);
+  renderGallery(postData);
 };
 
 filtersForm.addEventListener('click', debounce(onFilterButtonClick, RERENDER__DELAY));
