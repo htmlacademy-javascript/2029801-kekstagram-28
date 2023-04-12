@@ -14,7 +14,7 @@ const moreCommentsButton = overlay.querySelector('.comments-loader');
 const postCaption = overlay.querySelector('.social__caption');
 const commentsList = overlay.querySelector('.social__comments');
 const postTemplate = document.querySelector('#picture').content;
-let commentsSliceCounter = DEFAULT_COMMENTS_COUNT;
+let visibleCommentsCount = DEFAULT_COMMENTS_COUNT;
 let currentPost = null;
 
 const onDocumentKeydown = (evt) => {
@@ -83,8 +83,8 @@ const renderComments = (commentsData) => {
 };
 
 const onMoreCommentsButtonClick = () => {
-  commentsSliceCounter += DEFAULT_COMMENTS_COUNT;
-  const slicedComments = currentPost.comments.slice(0, commentsSliceCounter);
+  visibleCommentsCount += DEFAULT_COMMENTS_COUNT;
+  const slicedComments = currentPost.comments.slice(0, visibleCommentsCount);
   commentsList.innerHTML = '';
 
   renderComments(slicedComments);
@@ -97,8 +97,8 @@ export const openPost = (post) => {
 
   currentPost = post;
   const {url, description, likes, comments} = currentPost;
-  commentsSliceCounter = DEFAULT_COMMENTS_COUNT;
-  const slicedComments = comments.slice(0, commentsSliceCounter);
+  visibleCommentsCount = DEFAULT_COMMENTS_COUNT;
+  const slicedComments = comments.slice(0, visibleCommentsCount);
 
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
