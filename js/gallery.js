@@ -31,7 +31,7 @@ function closeOverlay () {
 
 closeButton.addEventListener('click', closeOverlay);
 
-const renderComment = (commentData) => {
+const createComment = (commentData) => {
   const newComment = document.createElement('li');
   newComment.classList.add('social__comment');
 
@@ -65,7 +65,7 @@ export const renderGallery = (post) => {
     commentsCount.textContent = `${slicedComments.length} из ${comments.length}`;
 
     for (const value of slicedComments) {
-      renderComment(value);
+      createComment(value);
     }
 
     if (slicedComments.length === comments.length) {
@@ -97,7 +97,7 @@ export const renderGallery = (post) => {
   commentsCount.textContent = `${slicedComments.length} из ${comments.length}`;
 
   for (const value of slicedComments) {
-    renderComment(value);
+    createComment(value);
   }
 };
 
