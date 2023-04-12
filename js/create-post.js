@@ -14,6 +14,8 @@ const moreCommentsButton = overlay.querySelector('.comments-loader');
 const postCaption = overlay.querySelector('.social__caption');
 const commentsList = overlay.querySelector('.social__comments');
 const postTemplate = document.querySelector('#picture').content;
+let visibleCommentsCount = DEFAULT_COMMENTS_COUNT;
+let currentPost = null;
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt.key)) {
@@ -63,37 +65,45 @@ const createComment = (commentData) => {
   commentText.textContent = commentData.message;
   newComment.appendChild(commentText);
 
-  commentsList.appendChild(newComment);
+  return newComment;
 };
+
+const renderComments = (commentsData) => {
+  for (const value of commentsData) {
+    const newComment = createComment(value);
+
+    commentsList.appendChild(newComment);
+  }
+
+  if (commentsData.length === currentPost.comments.length) {
+    moreCommentsButton.classList.add('hidden');
+  }
+
+  commentsCount.textContent = `${commentsData.length} из ${currentPost.comments.length}`;
+};
+
+const onMoreCommentsButtonClick = () => {
+  visibleCommentsCount += DEFAULT_COMMENTS_COUNT;
+  const slicedComments = currentPost.comments.slice(0, visibleCommentsCount);
+  commentsList.innerHTML = '';
+
+  renderComments(slicedComments);
+};
+
+moreCommentsButton.addEventListener('click', onMoreCommentsButtonClick);
 
 export const openPost = (post) => {
   overlay.classList.remove('hidden');
 
-  const {url, description, likes, comments} = post;
-  let commentsSliceCounter = DEFAULT_COMMENTS_COUNT;
-  let slicedComments = comments.slice();
-
-  const onMoreCommentsButtonClick = () => {
-    commentsSliceCounter += DEFAULT_COMMENTS_COUNT;
-    slicedComments = comments.slice(0, commentsSliceCounter);
-    commentsList.innerHTML = '';
-    commentsCount.textContent = `${slicedComments.length} из ${comments.length}`;
-
-    for (const value of slicedComments) {
-      createComment(value);
-    }
-
-    if (slicedComments.length === comments.length) {
-      moreCommentsButton.classList.add('hidden');
-    }
-  };
+  currentPost = post;
+  const {url, description, likes, comments} = currentPost;
+  visibleCommentsCount = DEFAULT_COMMENTS_COUNT;
+  const slicedComments = comments.slice(0, visibleCommentsCount);
 
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
-  moreCommentsButton.removeEventListener('click', onMoreCommentsButtonClick);
-  moreCommentsButton.addEventListener('click', onMoreCommentsButtonClick);
 
-  if (moreCommentsButton.classList.contains('hidden')) {
+  if (slicedComments.length < comments.length) {
     moreCommentsButton.classList.remove('hidden');
   }
 
@@ -103,16 +113,6 @@ export const openPost = (post) => {
   postCaption.textContent = description;
   commentsList.innerHTML = '';
 
-  if (slicedComments.length > commentsSliceCounter) {
-    slicedComments = comments.slice(0, commentsSliceCounter);
-  } else {
-    moreCommentsButton.classList.add('hidden');
-  }
-
-  commentsCount.textContent = `${slicedComments.length} из ${comments.length}`;
-
-  for (const value of slicedComments) {
-    createComment(value);
-  }
+  renderComments(slicedComments);
 };
 
