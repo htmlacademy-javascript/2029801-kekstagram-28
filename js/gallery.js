@@ -76,7 +76,7 @@ export const renderGallery = (post) => {
 
   document.addEventListener('keydown', onDocumentKeydown);
   document.body.classList.add('modal-open');
-  moreCommentsButton.removeEventListener('click', onMoreCommentsButtonClick);
+  moreCommentsButton.removeEventListener('click', onMoreCommentsButtonClick); /* Не удаляет, что вызывает некорректную работу при повторном открытии другого поста */
   moreCommentsButton.addEventListener('click', onMoreCommentsButtonClick);
 
   if (moreCommentsButton.classList.contains('hidden')) {
