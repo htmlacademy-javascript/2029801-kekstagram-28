@@ -1420,3 +1420,7 @@ main {
   text-align: center;
   background-color: red;
 }
+
+.users-photo {
+  display: contents;
+}

@@ -19,6 +19,7 @@ const INITIAL_SLIDER_CONFIG = {
   units: '',
   effect: ''
 };
+const DEFAULT_IMAGE_URL = '../img/upload-default-image.jpg';
 
 const createArticleForm = document.querySelector('.img-upload__form');
 const createPostButton = createArticleForm.querySelector('.img-upload__control');
@@ -172,6 +173,8 @@ const clearForm = () => {
   createArticleForm.reset();
   clearImageFilter();
   setImageScale(INITIAL_SCALE);
+
+  uploadImage.src = DEFAULT_IMAGE_URL;
 };
 
 const isHashTagsCorrect = (hashTags) => {

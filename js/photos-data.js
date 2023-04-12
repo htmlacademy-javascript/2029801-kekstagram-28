@@ -4,5 +4,4 @@ export const savePhotosData = (data) => {
   photosData = data;
 };
 
-const getPhotosData = () => photosData;
-getPhotosData();
+export const getPhotosData = () => photosData.slice();
