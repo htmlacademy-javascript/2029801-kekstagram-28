@@ -2,17 +2,17 @@ import {getPhotosData} from './photos-data.js';
 import {createPostElement} from './create-post.js';
 import {openPost} from './create-post.js';
 
-const postContainer = document.querySelector('.users-photo');
+const postContainerElement = document.querySelector('.users-photo');
 
 export const renderGallery = (postData) => {
   const postListFragment = document.createDocumentFragment();
 
-  for (const value of postData) {
+  postData.forEach((value) => {
     const newPost = createPostElement(value);
     postListFragment.appendChild(newPost);
-  }
+  });
 
-  postContainer.appendChild(postListFragment);
+  postContainerElement.appendChild(postListFragment);
 };
 
 const onPostClick = (evt) => {
@@ -25,4 +25,4 @@ const onPostClick = (evt) => {
   }
 };
 
-postContainer.addEventListener('click', onPostClick);
+postContainerElement.addEventListener('click', onPostClick);
