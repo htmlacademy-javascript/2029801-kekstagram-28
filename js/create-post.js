@@ -4,16 +4,17 @@ const AVATAR_WIDTH = '35';
 const AVATAR_HEIGHT = '35';
 const DEFAULT_COMMENTS_COUNT = 5;
 
-const overlay = document.querySelector('.big-picture');
-const closeButton = overlay.querySelector('.big-picture__cancel');
-const imageContainerElement = overlay.querySelector('.big-picture__img');
-const image = imageContainerElement.querySelector('img');
-const likesCounter = overlay.querySelector('.likes-count');
-const commentsCount = overlay.querySelector('.comments-count');
-const moreCommentsButton = overlay.querySelector('.comments-loader');
-const postCaption = overlay.querySelector('.social__caption');
-const commentsList = overlay.querySelector('.social__comments');
+const overlayElement = document.querySelector('.big-picture');
+const closeButtonElement = overlayElement.querySelector('.big-picture__cancel');
+const imageContainerElement = overlayElement.querySelector('.big-picture__img');
+const imageElement = imageContainerElement.querySelector('img');
+const likesCounterElement = overlayElement.querySelector('.likes-count');
+const commentsCountElement = overlayElement.querySelector('.comments-count');
+const moreCommentsButtonElement = overlayElement.querySelector('.comments-loader');
+const postCaptionElement = overlayElement.querySelector('.social__caption');
+const commentsListElement = overlayElement.querySelector('.social__comments');
 const postTemplateElement = document.querySelector('#picture').content;
+
 let visibleCommentsCount = DEFAULT_COMMENTS_COUNT;
 let currentPost = null;
 
@@ -30,13 +31,13 @@ const onCloseButtonClick = () => {
 
 // function для хостинга
 function closeOverlay () {
-  overlay.classList.add('hidden');
+  overlayElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-closeButton.addEventListener('click', onCloseButtonClick);
+closeButtonElement.addEventListener('click', onCloseButtonClick);
 
 export const createPostElement = (postBaseElement) => {
   const newPost = postTemplateElement.cloneNode(true);
@@ -76,28 +77,28 @@ const renderComments = (commentsData) => {
   commentsData.forEach((value) => {
     const newComment = createComment(value);
 
-    commentsList.appendChild(newComment);
+    commentsListElement.appendChild(newComment);
   });
 
   if (commentsData.length === currentPost.comments.length) {
-    moreCommentsButton.classList.add('hidden');
+    moreCommentsButtonElement.classList.add('hidden');
   }
 
-  commentsCount.textContent = `${commentsData.length} из ${currentPost.comments.length}`;
+  commentsCountElement.textContent = `${commentsData.length} из ${currentPost.comments.length}`;
 };
 
 const onMoreCommentsButtonClick = () => {
   visibleCommentsCount += DEFAULT_COMMENTS_COUNT;
   const slicedComments = currentPost.comments.slice(0, visibleCommentsCount);
-  commentsList.innerHTML = '';
+  commentsListElement.innerHTML = '';
 
   renderComments(slicedComments);
 };
 
-moreCommentsButton.addEventListener('click', onMoreCommentsButtonClick);
+moreCommentsButtonElement.addEventListener('click', onMoreCommentsButtonClick);
 
 export const openPost = (post) => {
-  overlay.classList.remove('hidden');
+  overlayElement.classList.remove('hidden');
 
   currentPost = post;
   const {url, description, likes, comments} = currentPost;
@@ -108,14 +109,14 @@ export const openPost = (post) => {
   document.body.classList.add('modal-open');
 
   if (slicedComments.length < comments.length) {
-    moreCommentsButton.classList.remove('hidden');
+    moreCommentsButtonElement.classList.remove('hidden');
   }
 
-  commentsCount.textContent = comments.length;
-  image.src = url;
-  likesCounter.textContent = likes;
-  postCaption.textContent = description;
-  commentsList.innerHTML = '';
+  commentsCountElement.textContent = comments.length;
+  imageElement.src = url;
+  likesCounterElement.textContent = likes;
+  postCaptionElement.textContent = description;
+  commentsListElement.innerHTML = '';
 
   renderComments(slicedComments);
 };
