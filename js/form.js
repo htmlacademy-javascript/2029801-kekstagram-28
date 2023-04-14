@@ -22,27 +22,24 @@ const INITIAL_SLIDER_CONFIG = {
 };
 const DEFAULT_IMAGE_URL = '../img/upload-default-image.jpg';
 
-const createArticleForm = document.querySelector('.img-upload__form');
-const formOverlay = createArticleForm.querySelector('.img-upload__overlay');
-const closeOverlayButton = createArticleForm.querySelector('.img-upload__cancel');
-const uploadImage = createArticleForm.querySelector('.img-upload__image');
-const hashTagsField = createArticleForm.querySelector('.text__hashtags');
-const descriptionField = createArticleForm.querySelector('.text__description');
+const createArticleFormElement = document.querySelector('.img-upload__form');
+const formOverlayElement = createArticleFormElement.querySelector('.img-upload__overlay');
+const closeOverlayButtonElement = createArticleFormElement.querySelector('.img-upload__cancel');
+const uploadImageElement = createArticleFormElement.querySelector('.img-upload__image');
+const hashTagsFieldElement = createArticleFormElement.querySelector('.text__hashtags');
+const descriptionFieldElement = createArticleFormElement.querySelector('.text__description');
 const errorMessageTemplateElement = document.querySelector('#error').content;
-const errorMessageOverlay = errorMessageTemplateElement.querySelector('.error');
+const errorMessageOverlayElement = errorMessageTemplateElement.querySelector('.error');
 const successMessageTemplateElement = document.querySelector('#success').content;
-const successMessageOverlay = successMessageTemplateElement.querySelector('.success');
-const scaleValueField = document.querySelector('.scale__control--value');
-const raiseScaleButton = document.querySelector('.scale__control--bigger');
-const decreaseScaleButton = document.querySelector('.scale__control--smaller');
-const sliderContainerElement = createArticleForm.querySelector('.img-upload__effect-level');
-const sliderElement = createArticleForm.querySelector('.effect-level__slider');
-const filterValueElement = createArticleForm.querySelector('.effect-level__value');
-const imageFiltersList = createArticleForm.querySelector('.effects__list');
-const submitButton = createArticleForm.querySelector('.img-upload__submit');
-
-let currentFilter = 'none';
-
+const successMessageOverlayElement = successMessageTemplateElement.querySelector('.success');
+const scaleValueFieldElement = document.querySelector('.scale__control--value');
+const raiseScaleButtonElement = document.querySelector('.scale__control--bigger');
+const decreaseScaleButtonElement = document.querySelector('.scale__control--smaller');
+const sliderContainerElement = createArticleFormElement.querySelector('.img-upload__effect-level');
+const sliderElement = createArticleFormElement.querySelector('.effect-level__slider');
+const filterValueElement = createArticleFormElement.querySelector('.effect-level__value');
+const imageFiltersListElement = createArticleFormElement.querySelector('.effects__list');
+const submitButtonElement = createArticleFormElement.querySelector('.img-upload__submit');
 const imageFilters = {
   chrome: {
     min: 0,
@@ -81,6 +78,8 @@ const imageFilters = {
   }
 };
 
+let currentFilter = 'none';
+
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt.key) && !isDialogOpen()) {
     evt.preventDefault();
@@ -96,16 +95,16 @@ const onFormFieldKeydown = (evt) => {
 
 const setImageScale = (value) => {
   const percentValue = value / SCALE_PERCENT_DIVIDER;
-  uploadImage.style.transform = `scale(${percentValue})`;
-  scaleValueField.value = `${value}%`;
+  uploadImageElement.style.transform = `scale(${percentValue})`;
+  scaleValueFieldElement.value = `${value}%`;
 };
 
 const onScaleButtonClick = (evt) => {
-  let currentScaleValue = parseInt(scaleValueField.value, 10);
+  let currentScaleValue = parseInt(scaleValueFieldElement.value, 10);
 
-  if (evt.target === raiseScaleButton && currentScaleValue < MAX_SCALE_VALUE) {
+  if (evt.target === raiseScaleButtonElement && currentScaleValue < MAX_SCALE_VALUE) {
     currentScaleValue += SCALE_STEP;
-  } else if (evt.target === decreaseScaleButton && currentScaleValue > MIN_SCALE_VALUE) {
+  } else if (evt.target === decreaseScaleButtonElement && currentScaleValue > MIN_SCALE_VALUE) {
     currentScaleValue -= SCALE_STEP;
   }
 
@@ -126,7 +125,7 @@ sliderElement.noUiSlider.on('update', () => {
   if (currentFilter !== 'none') {
     const currentFilterSettings = imageFilters[currentFilter];
     filterValueElement.value = sliderElement.noUiSlider.get();
-    uploadImage.style.filter = `${currentFilterSettings.effect}(${sliderElement.noUiSlider.get()}${currentFilterSettings.units})`;
+    uploadImageElement.style.filter = `${currentFilterSettings.effect}(${sliderElement.noUiSlider.get()}${currentFilterSettings.units})`;
   }
 });
 
@@ -142,21 +141,21 @@ const setFilterSettingsToSlider = (filterSettings) => {
 };
 
 const clearImageFilter = () => {
-  uploadImage.classList.remove(`effects__preview--${currentFilter}`);
+  uploadImageElement.classList.remove(`effects__preview--${currentFilter}`);
 
   sliderElement.noUiSlider.reset();
 
-  uploadImage.removeAttribute('style');
+  uploadImageElement.removeAttribute('style');
   currentFilter = 'none';
   filterValueElement.value = '';
 };
 
 const onFilterButtonClick = (evt) => {
-  uploadImage.classList.remove(`effects__preview--${currentFilter}`);
+  uploadImageElement.classList.remove(`effects__preview--${currentFilter}`);
 
   currentFilter = evt.target.value;
 
-  uploadImage.classList.add(`effects__preview--${currentFilter}`);
+  uploadImageElement.classList.add(`effects__preview--${currentFilter}`);
 
   const currentFilterSettings = imageFilters[currentFilter];
 
@@ -170,12 +169,12 @@ const onFilterButtonClick = (evt) => {
 };
 
 const clearForm = () => {
-  createArticleForm.reset();
+  createArticleFormElement.reset();
   clearImageFilter();
   setImageScale(INITIAL_SCALE);
   setThumbnailsImage(null);
 
-  uploadImage.src = DEFAULT_IMAGE_URL;
+  uploadImageElement.src = DEFAULT_IMAGE_URL;
 };
 
 const isHashTagsCorrect = (hashTags) => {
@@ -202,22 +201,22 @@ const isHashTagsCorrect = (hashTags) => {
 
 export const openForm = () => {
   document.body.classList.add('modal-open');
-  formOverlay.classList.remove('hidden');
+  formOverlayElement.classList.remove('hidden');
   sliderContainerElement.classList.add('hidden');
 
   document.addEventListener('keydown', onDocumentKeydown);
-  descriptionField.addEventListener('keydown', onFormFieldKeydown);
-  hashTagsField.addEventListener('keydown', onFormFieldKeydown);
-  raiseScaleButton.addEventListener('click', onScaleButtonClick);
-  decreaseScaleButton.addEventListener('click', onScaleButtonClick);
-  imageFiltersList.addEventListener('change', onFilterButtonClick);
+  descriptionFieldElement.addEventListener('keydown', onFormFieldKeydown);
+  hashTagsFieldElement.addEventListener('keydown', onFormFieldKeydown);
+  raiseScaleButtonElement.addEventListener('click', onScaleButtonClick);
+  decreaseScaleButtonElement.addEventListener('click', onScaleButtonClick);
+  imageFiltersListElement.addEventListener('change', onFilterButtonClick);
 };
 
 // function для хостинга
 function closeForm () {
   document.body.classList.remove('modal-open');
-  formOverlay.classList.add('hidden');
-  uploadImage.classList.remove(`effects__preview--${currentFilter}`);
+  formOverlayElement.classList.add('hidden');
+  uploadImageElement.classList.remove(`effects__preview--${currentFilter}`);
 
   document.removeEventListener('keydown', onDocumentKeydown);
 
@@ -230,37 +229,37 @@ const onCloseFormButtonClick = () => {
 
 const toggleSubmitCTAState = (isSubmitButtonDisable) => {
   if (isSubmitButtonDisable) {
-    submitButton.disabled = true;
-    submitButton.textContent = 'Публикация...';
+    submitButtonElement.disabled = true;
+    submitButtonElement.textContent = 'Публикация...';
   } else {
-    submitButton.disabled = false;
-    submitButton.textContent = 'Опубликовать';
+    submitButtonElement.disabled = false;
+    submitButtonElement.textContent = 'Опубликовать';
   }
 };
 
-closeOverlayButton.addEventListener('click', onCloseFormButtonClick);
+closeOverlayButtonElement.addEventListener('click', onCloseFormButtonClick);
 
-const pristine = new Pristine(createArticleForm, {
+const pristine = new Pristine(createArticleFormElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
   errorTextClass: 'text__error-message',
 });
 
-pristine.addValidator(hashTagsField, isHashTagsCorrect, FIELD_ERROR_MESSAGE);
+pristine.addValidator(hashTagsFieldElement, isHashTagsCorrect, FIELD_ERROR_MESSAGE);
 
 const onSubmitFormSuccess = () => {
-  openDialogOverlay(successMessageOverlay);
+  openDialogOverlay(successMessageOverlayElement);
   toggleSubmitCTAState(false);
   clearForm();
   closeForm();
 };
 
 const onSubmitFormError = () => {
-  openDialogOverlay(errorMessageOverlay);
+  openDialogOverlay(errorMessageOverlayElement);
   toggleSubmitCTAState(false);
 };
 
-createArticleForm.addEventListener('submit', (evt) => {
+createArticleFormElement.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
