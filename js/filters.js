@@ -8,9 +8,9 @@ const RERENDER__DELAY = 500;
 
 const filtersElement = document.querySelector('.img-filters');
 const filtersForm = filtersElement.querySelector('.img-filters__form');
-const randomFilterButton = document.getElementById('filter-random');
-const discussedFilterButton = document.getElementById('filter-discussed');
-const postContainer = document.querySelector('.users-photo');
+const randomFilterButton = document.querySelector('#filter-random');
+const discussedFilterButton = document.querySelector('#filter-discussed');
+const postContainerElement = document.querySelector('.users-photo');
 
 export const getRandomPictures = (picturesData) => {
   const randomPictures = [];
@@ -40,7 +40,7 @@ const onFilterButtonClick = (evt) => {
     return;
   }
 
-  postContainer.innerHTML = '';
+  postContainerElement.innerHTML = '';
   let postData = getPhotosData();
 
   currentFilter.classList.remove('img-filters__button--active');

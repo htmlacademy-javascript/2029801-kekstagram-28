@@ -6,14 +6,14 @@ const DEFAULT_COMMENTS_COUNT = 5;
 
 const overlay = document.querySelector('.big-picture');
 const closeButton = overlay.querySelector('.big-picture__cancel');
-const imageContainer = overlay.querySelector('.big-picture__img');
-const image = imageContainer.querySelector('img');
+const imageContainerElement = overlay.querySelector('.big-picture__img');
+const image = imageContainerElement.querySelector('img');
 const likesCounter = overlay.querySelector('.likes-count');
 const commentsCount = overlay.querySelector('.comments-count');
 const moreCommentsButton = overlay.querySelector('.comments-loader');
 const postCaption = overlay.querySelector('.social__caption');
 const commentsList = overlay.querySelector('.social__comments');
-const postTemplate = document.querySelector('#picture').content;
+const postTemplateElement = document.querySelector('#picture').content;
 let visibleCommentsCount = DEFAULT_COMMENTS_COUNT;
 let currentPost = null;
 
@@ -24,6 +24,10 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const onCloseButtonClick = () => {
+  closeOverlay();
+};
+
 // function для хостинга
 function closeOverlay () {
   overlay.classList.add('hidden');
@@ -32,10 +36,10 @@ function closeOverlay () {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-closeButton.addEventListener('click', closeOverlay);
+closeButton.addEventListener('click', onCloseButtonClick);
 
 export const createPostElement = (postBaseElement) => {
-  const newPost = postTemplate.cloneNode(true);
+  const newPost = postTemplateElement.cloneNode(true);
   const newPostImage = newPost.querySelector('.picture__img');
   const newPostComments = newPost.querySelector('.picture__comments');
   const newPostLikes = newPost.querySelector('.picture__likes');
@@ -69,11 +73,11 @@ const createComment = (commentData) => {
 };
 
 const renderComments = (commentsData) => {
-  for (const value of commentsData) {
+  commentsData.forEach((value) => {
     const newComment = createComment(value);
 
     commentsList.appendChild(newComment);
-  }
+  });
 
   if (commentsData.length === currentPost.comments.length) {
     moreCommentsButton.classList.add('hidden');

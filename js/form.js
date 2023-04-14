@@ -2,6 +2,7 @@ import {isEscapeKey} from './utils.js';
 import {openDialogOverlay} from './dialog.js';
 import {isDialogOpen} from './dialog.js';
 import {sendData} from './api.js';
+import {setThumbnailsImage} from './upload-image.js';
 
 const HASH_TAG = /^#[a-zа-яё0-9]{1,19}$/i;
 const MAX_HASH_TAG_COUNT = 5;
@@ -22,20 +23,19 @@ const INITIAL_SLIDER_CONFIG = {
 const DEFAULT_IMAGE_URL = '../img/upload-default-image.jpg';
 
 const createArticleForm = document.querySelector('.img-upload__form');
-const createPostButton = createArticleForm.querySelector('.img-upload__control');
 const formOverlay = createArticleForm.querySelector('.img-upload__overlay');
 const closeOverlayButton = createArticleForm.querySelector('.img-upload__cancel');
 const uploadImage = createArticleForm.querySelector('.img-upload__image');
 const hashTagsField = createArticleForm.querySelector('.text__hashtags');
 const descriptionField = createArticleForm.querySelector('.text__description');
-const errorMessageTemplate = document.querySelector('#error').content;
-const errorMessageOverlay = errorMessageTemplate.querySelector('.error');
-const successMessageTemplate = document.querySelector('#success').content;
-const successMessageOverlay = successMessageTemplate.querySelector('.success');
+const errorMessageTemplateElement = document.querySelector('#error').content;
+const errorMessageOverlay = errorMessageTemplateElement.querySelector('.error');
+const successMessageTemplateElement = document.querySelector('#success').content;
+const successMessageOverlay = successMessageTemplateElement.querySelector('.success');
 const scaleValueField = document.querySelector('.scale__control--value');
 const raiseScaleButton = document.querySelector('.scale__control--bigger');
 const decreaseScaleButton = document.querySelector('.scale__control--smaller');
-const sliderContainer = createArticleForm.querySelector('.img-upload__effect-level');
+const sliderContainerElement = createArticleForm.querySelector('.img-upload__effect-level');
 const sliderElement = createArticleForm.querySelector('.effect-level__slider');
 const filterValueElement = createArticleForm.querySelector('.effect-level__value');
 const imageFiltersList = createArticleForm.querySelector('.effects__list');
@@ -162,9 +162,9 @@ const onFilterButtonClick = (evt) => {
 
   if (evt.target.value !== 'none') {
     setFilterSettingsToSlider(currentFilterSettings);
-    sliderContainer.classList.remove('hidden');
+    sliderContainerElement.classList.remove('hidden');
   } else {
-    sliderContainer.classList.add('hidden');
+    sliderContainerElement.classList.add('hidden');
     clearImageFilter();
   }
 };
@@ -173,6 +173,7 @@ const clearForm = () => {
   createArticleForm.reset();
   clearImageFilter();
   setImageScale(INITIAL_SCALE);
+  setThumbnailsImage(null);
 
   uploadImage.src = DEFAULT_IMAGE_URL;
 };
@@ -199,10 +200,10 @@ const isHashTagsCorrect = (hashTags) => {
   return true;
 };
 
-const openForm = () => {
+export const openForm = () => {
   document.body.classList.add('modal-open');
   formOverlay.classList.remove('hidden');
-  sliderContainer.classList.add('hidden');
+  sliderContainerElement.classList.add('hidden');
 
   document.addEventListener('keydown', onDocumentKeydown);
   descriptionField.addEventListener('keydown', onFormFieldKeydown);
@@ -223,10 +224,6 @@ function closeForm () {
   clearForm();
 }
 
-const onOpenFormButtonClick = () => {
-  openForm();
-};
-
 const onCloseFormButtonClick = () => {
   closeForm();
 };
@@ -242,7 +239,6 @@ const toggleSubmitCTAState = (isSubmitButtonDisable) => {
 };
 
 closeOverlayButton.addEventListener('click', onCloseFormButtonClick);
-createPostButton.addEventListener('click', onOpenFormButtonClick);
 
 const pristine = new Pristine(createArticleForm, {
   classTo: 'img-upload__field-wrapper',
